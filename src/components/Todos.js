@@ -1,14 +1,26 @@
 import React from "react"
 import Todo from "./Todo"
 import TodoForm from "./TodoForm"
+import styled from "styled-components"
 
-const Todos = () => {
-  const [todos, setTodos] = React.useState([
-    { text: "Schedule dog grooming appointment", complete: false },
-    { text: "Buy birthday gift for mom", complete: false },
-    { text: "Check out best microphones for recording", complete: false },
-  ])
+const Main = styled.div`
+  font-family: "arial";
+  font-size: 1rem;
+  margin: 20px auto;
+  max-width: 600px;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 20px;
+`
+const Title = styled.h1`
+  text-align: center;
+  font-weight: bold;
+  font-size: 2rem;
+`
 
+const Todos = ({ data }) => {
+  console.log("data in todos", data.lists[0].items)
+  const [todos, setTodos] = React.useState(data.lists[0].items)
   const addTodo = text => {
     const newTodos = [...todos, { text }]
     setTodos(newTodos)
@@ -40,7 +52,8 @@ const Todos = () => {
   }
 
   return (
-    <div className="app">
+    <Main className="app">
+      <Title>{data.slug}</Title>
       <div className="todo-list">
         {todos.map((todo, index) => (
           <Todo
@@ -54,7 +67,9 @@ const Todos = () => {
       </div>
 
       <TodoForm addTodo={addTodo} />
-    </div>
+
+      <a href="/">Back to All Lists</a>
+    </Main>
   )
 }
 

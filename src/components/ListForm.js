@@ -1,13 +1,17 @@
-import React from "react"
+import React, { useEffect } from "react"
 
-const TodoForm = ({ addTodo }) => {
+const ListForm = ({ addList }) => {
   const [value, setValue] = React.useState("")
 
+  useEffect(() => {
+    console.log("value", value)
+  }, [value])
+
   const handleSubmit = e => {
-    console.log("submit clicked for list item!")
+    console.log("submit clicked!")
     e.preventDefault()
     if (!value) return
-    addTodo(value)
+    addList(value)
     setValue("")
   }
 
@@ -15,13 +19,13 @@ const TodoForm = ({ addTodo }) => {
     <form onSubmit={handleSubmit}>
       <input
         type="text"
-        className="input"
+        className="input-list"
         value={value}
         onChange={e => setValue(e.target.value)}
-        placeholder="What's next?"
+        placeholder="List name goes here"
       />
     </form>
   )
 }
 
-export default TodoForm
+export default ListForm

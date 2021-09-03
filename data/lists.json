@@ -1,0 +1,24 @@
+[
+  {
+    "slug": "todos",
+    "lists": [
+      {
+        "items": [
+          { "text": "give dog a bath", "complete": false },
+          { "text": "water plants", "complete": false }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "shopping",
+    "lists": [
+      {
+        "items": [
+          { "text": "party shoes", "complete": false },
+          { "text": "sweater vest", "complete": false }
+        ]
+      }
+    ]
+  }
+]

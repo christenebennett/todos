@@ -1,7 +1,9 @@
 import React from "react"
-import { data } from "../../data/data"
+import { graphql } from "gatsby"
 import styled from "styled-components"
 import Todos from "../components/Todos"
+import Link from "gatsby"
+import ListForm from "../components/ListForm"
 
 const Index = styled.div`
   font-family: "arial";
@@ -17,14 +19,58 @@ const Title = styled.h1`
   font-weight: bold;
   font-size: 2rem;
 `
-const IndexPage = () => {
+
+export const pageQuery = graphql`
+  query HomePageQuery {
+    allList {
+      edges {
+        node {
+          slug
+          lists {
+            items {
+              complete
+              text
+            }
+          }
+        }
+      }
+    }
+  }
+`
+
+const IndexPage = ({ data }) => {
+  const listData = data.allList.edges
+  const [showListForm, setShowListForm] = React.useState(false)
+  const [lists, setLists] = React.useState(listData)
+  const addList = text => {
+    let newListEntry = {
+      node: {
+        slug: encodeURI(text),
+        lists: [
+          {
+            items: [],
+          },
+        ],
+      },
+    }
+    const newList = [...lists, newListEntry]
+    setLists(newList)
+  }
+
   return (
     <Index>
       <Title>Get Stuff Done</Title>
-
-      {data.lists.map(item => {
-        return <Todos key={item} item={item} />
+      {lists.map((list, index) => {
+        return (
+          <a key={(list, index)} href={`/${list.node.slug}`}>
+            <div>hi {list.node.slug}</div>
+          </a>
+        )
       })}
+      {showListForm && <ListForm addList={addList} />}
+      {!showListForm && (
+        <button onClick={() => setShowListForm(true)}>Create New List</button>
+      )}
     </Index>
   )
 }
