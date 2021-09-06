@@ -1,14 +1,15 @@
 import React, { useEffect } from "react"
+import styled from "styled-components"
 
+const ListInput = styled.input`
+  border-radius: 20px;
+  padding: 2px 10px;
+  border: none;
+`
 const ListForm = ({ addList }) => {
   const [value, setValue] = React.useState("")
 
-  useEffect(() => {
-    console.log("value", value)
-  }, [value])
-
   const handleSubmit = e => {
-    console.log("submit clicked!")
     e.preventDefault()
     if (!value) return
     addList(value)
@@ -17,7 +18,7 @@ const ListForm = ({ addList }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <input
+      <ListInput
         type="text"
         className="input-list"
         value={value}

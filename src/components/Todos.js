@@ -1,28 +1,39 @@
-import React from "react"
+import React, { useContext, useEffect } from "react"
 import Todo from "./Todo"
 import TodoForm from "./TodoForm"
 import styled from "styled-components"
+import { Context } from "../contexts/Context"
 
 const Main = styled.div`
-  font-family: "arial";
   font-size: 1rem;
   margin: 20px auto;
   max-width: 600px;
-  border: 1px solid black;
   border-radius: 10px;
-  padding: 20px;
+  padding: 20px 40px;
 `
 const Title = styled.h1`
   text-align: center;
   font-weight: bold;
   font-size: 2rem;
+  font-family: "MontserratLight", sans-serif;
+`
+
+const ListHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
 `
 
 const Todos = ({ data }) => {
-  console.log("data in todos", data.lists[0].items)
-  const [todos, setTodos] = React.useState(data.lists[0].items)
+  const { lists, activeList, setLists, setActiveList, updateLists } =
+    useContext(Context)
+  const [todos, setTodos] = React.useState(activeList.items)
+
+  useEffect(() => {
+    updateLists(todos)
+  }, [todos])
+
   const addTodo = text => {
-    const newTodos = [...todos, { text }]
+    const newTodos = [...todos, { text, complete: false }]
     setTodos(newTodos)
   }
 
@@ -51,9 +62,18 @@ const Todos = ({ data }) => {
     setTodos(newTodos)
   }
 
+  const getIncompleteCount = () => {
+    const incompleteItems = data.items.filter(item => item.complete === false)
+    console.log("incompletelength", incompleteItems.length)
+    return incompleteItems.length
+  }
+
   return (
     <Main className="app">
-      <Title>{data.slug}</Title>
+      <ListHeader className="list-header">
+        <Title>{data.slug}</Title>
+        <Title className="todo-count">{getIncompleteCount()}</Title>
+      </ListHeader>
       <div className="todo-list">
         {todos.map((todo, index) => (
           <Todo
@@ -67,8 +87,6 @@ const Todos = ({ data }) => {
       </div>
 
       <TodoForm addTodo={addTodo} />
-
-      <a href="/">Back to All Lists</a>
     </Main>
   )
 }
