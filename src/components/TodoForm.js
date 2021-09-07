@@ -11,7 +11,6 @@ const TodoForm = ({ addTodo }) => {
   const [value, setValue] = React.useState("")
 
   const handleSubmit = e => {
-    console.log("submit clicked for list item!")
     e.preventDefault()
     if (!value) return
     addTodo(value)

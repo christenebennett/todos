@@ -1,8 +1,8 @@
 import React from "react"
 import styled from "styled-components"
-import Todos from "./Todos"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
+import Todos from "./Todos"
 
 const ModalStyle = styled.div`
   color: white;

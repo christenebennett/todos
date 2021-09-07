@@ -1,14 +1,11 @@
-import React, { useEffect, useState, useContext } from "react"
-import { graphql } from "gatsby"
+import React, { useEffect, useState } from "react"
 import styled from "styled-components"
-import Todos from "../components/Todos"
-import Link from "gatsby"
-import ListForm from "../components/ListForm"
-import { Context } from "../contexts/Context"
-import { data } from "../../data/lists"
-import Modal from "../components/Modal"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPlus, faList } from "@fortawesome/free-solid-svg-icons"
+import { data } from "../../data/lists"
+import { Context } from "../contexts/Context"
+import ListForm from "../components/ListForm"
+import Modal from "../components/Modal"
 import "../styles/core.css"
 
 const Index = styled.div`
@@ -20,7 +17,6 @@ const Index = styled.div`
   box-shadow: 0px 0px 10px rgb(0 0 0 / 20%);
   color: #f8f8ff;
 `
-
 const Header = styled.div`
   background-color: #5dd9a7;
 `
@@ -31,14 +27,12 @@ const Title = styled.h1`
   padding: 20px 20px 10px;
   color: #fff;
 `
-
 const ListItems = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
 `
-
 const ListItemButton = styled.button`
   transition-property: all;
   transition-duration: 0.3s;
@@ -59,11 +53,9 @@ const ListItemButton = styled.button`
     color: #000;
   }
 `
-
 const ListCon = styled.div`
   padding: 20px;
 `
-
 const NewListButton = styled.button`
   background: none;
   border: none;
@@ -74,7 +66,6 @@ const NewListButton = styled.button`
   color: #f8f8ff;
   margin-top: 50px;
 `
-
 const AddListIcon = styled.span`
   background-color: #5dd9a7;
   border-radius: 50%;
@@ -102,7 +93,6 @@ const ListIcon = styled.span`
   align-items: center;
   margin-right: 10px;
 `
-
 const IndexPage = () => {
   const [showListForm, setShowListForm] = React.useState(false)
   const [lists, setLists] = React.useState(data)
@@ -131,9 +121,9 @@ const IndexPage = () => {
     }
     // update lists state
     setActiveList(newListObj)
-    // updateStateLists(activeList)
   }
 
+  // anytime activeList changes, update lists in state
   useEffect(() => {
     updateStateLists(activeList)
   }, [activeList])
@@ -171,6 +161,9 @@ const IndexPage = () => {
             <h3>Your Lists:</h3>
             <ListItems>
               {lists.map((list, index) => {
+                const incompleteItems = list.items.filter(
+                  item => item.complete === false
+                )
                 return (
                   <ListItemButton
                     key={(list, index)}
@@ -179,7 +172,7 @@ const IndexPage = () => {
                     <ListIcon>
                       <FontAwesomeIcon icon={faList} />
                     </ListIcon>
-                    {list.slug}
+                    {list.slug} - {incompleteItems.length}
                   </ListItemButton>
                 )
               })}

@@ -24,8 +24,7 @@ const ListHeader = styled.div`
 `
 
 const Todos = ({ data }) => {
-  const { lists, activeList, setLists, setActiveList, updateLists } =
-    useContext(Context)
+  const { activeList, updateLists } = useContext(Context)
   const [todos, setTodos] = React.useState(activeList.items)
 
   useEffect(() => {
